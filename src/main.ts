@@ -3,6 +3,7 @@ import { Intents, Interaction, Message } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const client = new Client({
@@ -42,12 +43,30 @@ client.once("ready", async () => {
   console.log("Bot started");
 });
 
-client.on("interactionCreate", (interaction: Interaction) => {
+/*client.on("interactionCreate", (interaction: Interaction) => {
+  client.executeInteraction(interaction);
+});*/
+
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand()) return;
+
+  const { commandName } = interaction;
+
+  if (commandName === 'react') {
+    const message = await interaction.reply({ content: 'You can react with Unicode emojis!', fetchReply: true });
+  }
   client.executeInteraction(interaction);
 });
 
 client.on("messageCreate", (message: Message) => {
   client.executeCommand(message);
+});
+
+client.on('messageReactionAdd', (reaction, user) => {
+  console.log("first check");
+  if (reaction.emoji.name === "✅") {
+    console.log("second check");
+  }
 });
 
 async function run() {
