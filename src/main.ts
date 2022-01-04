@@ -2,6 +2,8 @@ import "reflect-metadata";
 import { Intents, Interaction, Message } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const client = new Client({
   simpleCommand: {
@@ -15,8 +17,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_VOICE_STATES,
   ],
   // If you only want to use global commands only, comment this line
-  botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
-  silent: true,
+  botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)]
 });
 
 client.once("ready", async () => {
